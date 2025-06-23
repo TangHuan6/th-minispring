@@ -5,7 +5,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 /**
- * @author derekyi
+ * @author t h
  * @date 2025/6/23
  */
 public class BeanDefinitionAndBeanDefinitionRegistryTest {

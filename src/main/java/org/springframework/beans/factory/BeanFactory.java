@@ -1,15 +1,21 @@
 package org.springframework.beans.factory;
 
-import java.util.HashMap;
-import java.util.Map;
 
-public class BeanFactory {
-    private Map<String,Object> beanMap = new HashMap<>();
 
-    public void registerBean(String name, Object bean) {
-        beanMap.put(name, bean);
-    }
-    public Object getBean(String name) {
-        return beanMap.get(name);
-    }
+/**
+ * bean容器
+ *
+ *
+ * @author th
+ * @date 2025/6/22
+ */
+public interface BeanFactory {
+
+	/**
+	 * 获取bean IOC 容器的基本能力：通过 beanName 获取对象。
+	 *
+	 * @param name
+	 * @return
+	 */
+	Object getBean(String name);
 }

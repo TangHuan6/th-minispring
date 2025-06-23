@@ -6,7 +6,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
 /**
  * @author derekyi
- * @date 2020/11/24
+ * @date 2025/6/23
  */
 public class BeanDefinitionAndBeanDefinitionRegistryTest {
 
@@ -17,6 +17,8 @@ public class BeanDefinitionAndBeanDefinitionRegistryTest {
 		beanFactory.registerBeanDefinition("helloService", beanDefinition);
 
 		HelloService helloService = (HelloService) beanFactory.getBean("helloService");
+		System.out.println(helloService.getClass());
+		System.out.println(helloService.getName());
 		helloService.sayHello();
 	}
 }

@@ -1,6 +1,7 @@
 package org.springframework.beans.factory;
 
 
+import org.springframework.beans.BeansException;
 
 /**
  * bean容器
@@ -18,4 +19,6 @@ public interface BeanFactory {
 	 * @return
 	 */
 	Object getBean(String name);
+
+	Object getBean(String name, Object... args) throws BeansException;
 }

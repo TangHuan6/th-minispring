@@ -3,6 +3,7 @@ package org.springframework.test.ioc;
 import org.junit.Test;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.test.ioc.service.HelloService;
 
 /**
  * @author t h
@@ -18,7 +19,6 @@ public class BeanDefinitionAndBeanDefinitionRegistryTest {
 
 		HelloService helloService = (HelloService) beanFactory.getBean("helloService");
 		System.out.println(helloService.getClass());
-		System.out.println(helloService.getName());
 		helloService.sayHello();
 	}
 }

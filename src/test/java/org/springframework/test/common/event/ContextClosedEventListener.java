@@ -1,4 +1,4 @@
-package org.springframework.test.ioc.common.event;
+package org.springframework.test.common.event;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
@@ -11,6 +11,5 @@ public class ContextClosedEventListener implements ApplicationListener<ContextCl
 	@Override
 	public void onApplicationEvent(ContextClosedEvent event) {
 		System.out.println(this.getClass().getName());
-		System.out.println("容器关闭 触发监听");
 	}
 }

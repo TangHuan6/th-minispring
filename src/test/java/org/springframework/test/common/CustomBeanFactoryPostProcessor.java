@@ -1,4 +1,4 @@
-package org.springframework.test.ioc.common;
+package org.springframework.test.common;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValue;
@@ -8,8 +8,8 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 
 /**
- * @author th
- * @date 2025/6/24
+ * @author derekyi
+ * @date 2020/11/28
  */
 public class CustomBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 

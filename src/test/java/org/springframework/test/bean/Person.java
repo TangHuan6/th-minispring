@@ -1,11 +1,11 @@
-package org.springframework.test.ioc.bean;
+package org.springframework.test.bean;
 
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * @author th
- * @date 2025/6/24
+ * @author derekyi
+ * @date 2020/11/24
  */
 public class Person implements InitializingBean, DisposableBean {
 
@@ -65,4 +65,5 @@ public class Person implements InitializingBean, DisposableBean {
 				", car=" + car +
 				'}';
 	}
+
 }

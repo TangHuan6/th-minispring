@@ -2,11 +2,11 @@ package org.springframework.test.ioc;
 
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.ioc.common.event.CustomEvent;
+import org.springframework.test.common.event.CustomEvent;
 
 /**
- * @author th
- * @date 2025/6/30
+ * @author derekyi
+ * @date 2020/12/5
  */
 public class EventAndEventListenerTest {
 

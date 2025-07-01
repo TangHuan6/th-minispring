@@ -1,21 +1,18 @@
 package org.springframework.test.ioc;
 
-
 import org.junit.Test;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.test.ioc.bean.Car;
-import org.springframework.test.ioc.bean.Person;
-import org.springframework.test.ioc.common.CustomBeanFactoryPostProcessor;
-import org.springframework.test.ioc.common.CustomerBeanPostProcessor;
+import org.springframework.test.bean.Car;
+import org.springframework.test.bean.Person;
+import org.springframework.test.common.CustomBeanFactoryPostProcessor;
+import org.springframework.test.common.CustomerBeanPostProcessor;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * @author th
- *
- * @date 2025/6/24
+ * @author derekyi
+ * @date 2020/11/28
  */
 public class BeanFactoryPostProcessorAndBeanPostProcessorTest {
 
@@ -31,7 +28,6 @@ public class BeanFactoryPostProcessorAndBeanPostProcessorTest {
 
 		Person person = (Person) beanFactory.getBean("person");
 		System.out.println(person);
-		System.out.println(person.getCar());
 		//name属性在CustomBeanFactoryPostProcessor中被修改为ivy
 		assertThat(person.getName()).isEqualTo("ivy");
 	}

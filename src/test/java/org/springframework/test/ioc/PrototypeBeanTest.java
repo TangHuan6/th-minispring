@@ -2,11 +2,14 @@ package org.springframework.test.ioc;
 
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.test.ioc.bean.Car;
+import org.springframework.test.bean.Car;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
+/**
+ * @author derekyi
+ * @date 2020/12/2
+ */
 public class PrototypeBeanTest {
 
 	@Test
@@ -15,8 +18,6 @@ public class PrototypeBeanTest {
 
 		Car car1 = applicationContext.getBean("car", Car.class);
 		Car car2 = applicationContext.getBean("car", Car.class);
-		System.out.println(car1);
-		System.out.println(car2);
 		assertThat(car1 != car2).isTrue();
 	}
 }

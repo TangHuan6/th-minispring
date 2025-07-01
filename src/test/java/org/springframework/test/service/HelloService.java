@@ -1,13 +1,15 @@
-package org.springframework.test.ioc.service;
+package org.springframework.test.service;
 
 import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
-
-
+/**
+ * @author derekyi
+ * @date 2020/11/22
+ */
 public class HelloService implements ApplicationContextAware, BeanFactoryAware {
 
 	private ApplicationContext applicationContext;

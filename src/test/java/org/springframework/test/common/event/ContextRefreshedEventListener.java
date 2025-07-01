@@ -1,4 +1,4 @@
-package org.springframework.test.ioc.common.event;
+package org.springframework.test.common.event;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -12,6 +12,5 @@ public class ContextRefreshedEventListener implements ApplicationListener<Contex
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		System.out.println(this.getClass().getName());
-		System.out.println("容器刷新完毕 出发监听");
 	}
 }

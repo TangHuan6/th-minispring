@@ -1,13 +1,12 @@
-package org.springframework.test.ioc.common;
+package org.springframework.test.common;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.test.ioc.bean.Car;
-
+import org.springframework.test.bean.Car;
 
 /**
- * @author th
- * @date 2025/6/24
+ * @author derekyi
+ * @date 2020/11/28
  */
 public class CustomerBeanPostProcessor implements BeanPostProcessor {
 	@Override
@@ -22,7 +21,7 @@ public class CustomerBeanPostProcessor implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		System.out.println("CustomerBeanPostProcessor#postProcessAfterInitialization");
+		System.out.println("CustomerBeanPostProcessor#postProcessAfterInitialization, beanName: " + beanName);
 		return bean;
 	}
 }

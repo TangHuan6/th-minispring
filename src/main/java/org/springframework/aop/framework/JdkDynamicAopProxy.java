@@ -2,7 +2,6 @@ package org.springframework.aop.framework;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.springframework.aop.AdvisedSupport;
-import org.springframework.aop.ReflectiveMethodInvocation;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

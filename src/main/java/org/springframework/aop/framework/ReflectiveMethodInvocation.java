@@ -1,4 +1,4 @@
-package org.springframework.aop;
+package org.springframework.aop.framework;
 
 import org.aopalliance.intercept.MethodInvocation;
 

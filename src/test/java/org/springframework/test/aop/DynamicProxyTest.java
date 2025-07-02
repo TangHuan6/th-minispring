@@ -9,11 +9,14 @@ import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.framework.CglibAopProxy;
 import org.springframework.aop.framework.JdkDynamicAopProxy;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor;
+import org.springframework.test.common.WorldServiceAfterAdvice;
+import org.springframework.test.common.WorldServiceAfterReturningAdvice;
 import org.springframework.test.common.WorldServiceBeforeAdvice;
-import org.springframework.test.common.WorldServiceInterceptor;
+import org.springframework.aop.GenericInterceptor;
+import org.springframework.test.common.WorldServiceThrowsAdvice;
 import org.springframework.test.service.WorldService;
 import org.springframework.test.service.WorldServiceImpl;
+import org.springframework.test.service.WorldServiceWithExceptionImpl;
 
 /**
  * @author derekyi
@@ -29,7 +32,7 @@ public class DynamicProxyTest {
 
 		advisedSupport = new AdvisedSupport();
 		TargetSource targetSource = new TargetSource(worldService);
-		WorldServiceInterceptor methodInterceptor = new WorldServiceInterceptor();
+		GenericInterceptor methodInterceptor = new GenericInterceptor();
 		MethodMatcher methodMatcher = new AspectJExpressionPointcut("execution(* org.springframework.test.service.WorldService.explode(..))").getMethodMatcher();
 		advisedSupport.setTargetSource(targetSource);
 		advisedSupport.setMethodInterceptor(methodInterceptor);
@@ -65,10 +68,94 @@ public class DynamicProxyTest {
 	public void testBeforeAdvice() throws Exception {
 		//设置BeforeAdvice
 		WorldServiceBeforeAdvice beforeAdvice = new WorldServiceBeforeAdvice();
-		MethodBeforeAdviceInterceptor methodInterceptor = new MethodBeforeAdviceInterceptor(beforeAdvice);
+		GenericInterceptor methodInterceptor = new GenericInterceptor();
+		methodInterceptor.setBeforeAdvice(beforeAdvice);
 		advisedSupport.setMethodInterceptor(methodInterceptor);
 
 		WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
 		proxy.explode();
 	}
+
+	@Test
+	public void testAfterAdvice() throws Exception {
+		//设置AfterAdvice
+		WorldServiceAfterAdvice afterAdvice = new WorldServiceAfterAdvice();
+		GenericInterceptor methodInterceptor = new GenericInterceptor();
+		methodInterceptor.setAfterAdvice(afterAdvice);
+		advisedSupport.setMethodInterceptor(methodInterceptor);
+
+		WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+		proxy.explode();
+	}
+
+	@Test
+	public void testAfterReturningAdvice() throws Exception {
+		//设置AfterReturningAdvice
+		WorldServiceAfterReturningAdvice afterReturningAdvice = new WorldServiceAfterReturningAdvice();
+		GenericInterceptor methodInterceptor = new GenericInterceptor();
+		methodInterceptor.setAfterReturningAdvice(afterReturningAdvice);
+		advisedSupport.setMethodInterceptor(methodInterceptor);
+
+		WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+		proxy.explode();
+	}
+
+	@Test
+	public void testThrowsAdvice() throws Exception {
+		WorldService worldService = new WorldServiceWithExceptionImpl();
+		//设置ThrowsAdvice
+		WorldServiceThrowsAdvice throwsAdvice = new WorldServiceThrowsAdvice();
+		GenericInterceptor methodInterceptor = new GenericInterceptor();
+		methodInterceptor.setThrowsAdvice( throwsAdvice);
+		advisedSupport.setMethodInterceptor(methodInterceptor);
+		advisedSupport.setTargetSource(new TargetSource(worldService));
+
+		WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+		proxy.explode();
+	}
+
+
+	@Test
+	public void testAllAdvice() throws Exception {
+		//设置before、after、afterReturning
+		GenericInterceptor methodInterceptor = new GenericInterceptor();
+		methodInterceptor.setBeforeAdvice(new WorldServiceBeforeAdvice());
+		methodInterceptor.setAfterAdvice(new WorldServiceAfterAdvice());
+		methodInterceptor.setAfterReturningAdvice(new WorldServiceAfterReturningAdvice());
+		advisedSupport.setMethodInterceptor(methodInterceptor);
+
+		WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+		proxy.explode();
+	}
+
+	@Test
+	public void testAllAdviceWithException() throws Exception {
+		WorldService worldService = new WorldServiceWithExceptionImpl();
+		//设置before、after、throws
+		GenericInterceptor methodInterceptor = new GenericInterceptor();
+		methodInterceptor.setBeforeAdvice(new WorldServiceBeforeAdvice());
+		methodInterceptor.setAfterAdvice(new WorldServiceAfterAdvice());
+		methodInterceptor.setThrowsAdvice(new WorldServiceThrowsAdvice());
+		advisedSupport.setMethodInterceptor(methodInterceptor);
+		advisedSupport.setTargetSource(new TargetSource(worldService));
+
+		WorldService proxy = (WorldService) new ProxyFactory(advisedSupport).getProxy();
+		proxy.explode();
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

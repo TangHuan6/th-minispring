@@ -57,7 +57,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 
     protected Object doCreateBean(String beanName, BeanDefinition beanDefinition,Object[] args) throws BeansException {
-        Object bean = null;
+        Object bean;
         try {
             /**
              * beanClass.newInstance()存在问题
@@ -66,6 +66,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
              *  3.newInstance() 要求构造器必须是 public。若构造器为 private 或 protected，也无法访问。
              */
             bean = createBeanInstance(beanDefinition,beanName,args);
+
+            //为解决循环依赖问题，将实例化后的bean放进缓存中提前暴露
+            earlySingletonObjects.put(beanName, bean);
+
             //实例化bean之后执行
             boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantiation(beanName, bean);
             if (!continueWithPropertyPopulation) {

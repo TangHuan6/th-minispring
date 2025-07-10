@@ -2,6 +2,7 @@ package org.springframework.test.ioc;
 
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.bean.Car;
 import org.springframework.test.bean.Person;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,6 +18,8 @@ public class AutowiredAnnotationTest {
 		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:autowired-annotation.xml");
 
 		Person person = applicationContext.getBean(Person.class);
+		Car car = applicationContext.getBean(Car.class);
+		System.out.println(car.getPerson());
 		System.out.println(person);
 		assertThat(person.getCar()).isNotNull();
 	}

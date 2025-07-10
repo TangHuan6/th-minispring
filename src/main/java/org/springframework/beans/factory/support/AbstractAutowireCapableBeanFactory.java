@@ -66,6 +66,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
              *  3.newInstance() 要求构造器必须是 public。若构造器为 private 或 protected，也无法访问。
              */
             bean = createBeanInstance(beanDefinition,beanName,args);
+            //在设置bean属性之前，允许BeanPostProcessor修改属性值
+            applyBeanPostprocessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
+
             //给bean填充属性
             applyPropertyValues(beanName,bean,beanDefinition);
             //执行bean的初始化方法和BeanPostProcessor的前置和后置处理方法
@@ -79,6 +82,27 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             addSingleton(beanName,bean);
         }
         return bean;
+    }
+
+
+    /**
+     * 在设置bean属性之前，允许BeanPostProcessor修改属性值
+     *
+     * @param beanName
+     * @param bean
+     * @param beanDefinition
+     */
+    protected void applyBeanPostprocessorsBeforeApplyingPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                PropertyValues pvs = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
+                if (pvs != null) {
+                    for (PropertyValue propertyValue : pvs.getPropertyValues()) {
+                        beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
+                    }
+                }
+            }
+        }
     }
 
     /**

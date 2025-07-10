@@ -118,6 +118,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     }
 
 
+    public <T> T getBean(Class<T> requiredType) throws BeansException {
+        return getBeanFactory().getBean(requiredType);
+    }
+
 
     @Override
     public <T> T getBean(String name, Class<T> requiredType) throws BeansException {

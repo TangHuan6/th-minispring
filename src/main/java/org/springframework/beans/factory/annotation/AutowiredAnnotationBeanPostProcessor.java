@@ -41,7 +41,7 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
             }
         }
 
-        //处理@Autowired注解（下一节实现）
+        //处理@Autowired注解
         for (Field field : fields) {
             Autowired autowiredAnnotation = field.getAnnotation(Autowired.class);
             if (autowiredAnnotation != null) {
@@ -59,6 +59,11 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
             }
         }
         return pvs;
+    }
+
+    @Override
+    public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+        return true;
     }
 
     @Override

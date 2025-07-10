@@ -66,13 +66,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
              *  3.newInstance() 要求构造器必须是 public。若构造器为 private 或 protected，也无法访问。
              */
             bean = createBeanInstance(beanDefinition,beanName,args);
+            //实例化bean之后执行
+            boolean continueWithPropertyPopulation = applyBeanPostProcessorsAfterInstantiation(beanName, bean);
+            if (!continueWithPropertyPopulation) {
+                return bean;
+            }
             //在设置bean属性之前，允许BeanPostProcessor修改属性值
             applyBeanPostprocessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
-
             //给bean填充属性
             applyPropertyValues(beanName,bean,beanDefinition);
             //执行bean的初始化方法和BeanPostProcessor的前置和后置处理方法
-            initializeBean(beanName,bean,beanDefinition);
+            bean = initializeBean(beanName,bean,beanDefinition);
         } catch (Exception e) {
             throw new BeansException("Instantiation of bean failed", e);
         }
@@ -82,6 +86,27 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             addSingleton(beanName,bean);
         }
         return bean;
+    }
+
+
+    /**
+     * bean实例化后执行，如果返回false，不执行后续设置属性的逻辑
+     *
+     * @param beanName
+     * @param bean
+     * @return
+     */
+    private boolean applyBeanPostProcessorsAfterInstantiation(String beanName, Object bean) {
+        boolean continueWithPropertyPopulation = true;
+        for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                if (!((InstantiationAwareBeanPostProcessor) beanPostProcessor).postProcessAfterInstantiation(bean, beanName)) {
+                    continueWithPropertyPopulation = false;
+                    break;
+                }
+            }
+        }
+        return continueWithPropertyPopulation;
     }
 
 
@@ -192,7 +217,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) throws BeansException {
         Object result = existingBean;
         for (BeanPostProcessor processor : getBeanPostProcessors()) {
-            Object current = processor.postProcessBeforeInitialization(existingBean, beanName);
+            Object current = processor.postProcessAfterInitialization(existingBean, beanName);
             if (current == null){
                 return result;
             }
